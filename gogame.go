@@ -28,6 +28,6 @@ func Quit() {
 
 type quitter struct{}
 
-func (q quitter) Quit() {
+func (quitter) Quit() {
 	Quit()
 }
