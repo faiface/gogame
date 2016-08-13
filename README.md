@@ -23,5 +23,4 @@ func main() {
 		ctx.DrawRect(100, 100, 500, 400, 0, gogame.Red)
 	})
 }
-
 ```
