@@ -19,8 +19,8 @@ func main() {
 	}
 
 	gogame.Loop(cfg, func(ctx gogame.Context) {
-		ctx.Clear(gogame.Yellow)
-		ctx.DrawRect(100, 100, 500, 400, 0, gogame.Red)
+		ctx.Clear(gogame.Colors["yellow"])
+		ctx.DrawRect(100, 100, 500, 400, 0, gogame.Colors["red"])
 	})
 }
 ```
