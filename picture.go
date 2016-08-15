@@ -29,9 +29,8 @@ func LoadPicture(path string) (Picture, error) {
 }
 
 type picture struct {
-	surface   *sdl.Surface
-	texture   *sdl.Texture
-	rendIndex int
+	surface *sdl.Surface
+	texture *sdl.Texture
 }
 
 func (p picture) Size() (w, h int) {
