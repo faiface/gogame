@@ -33,6 +33,10 @@ func Loop(cfg Config, lf LoopFunc) error {
 	for {
 		input.update()
 
+		if cfg.QuitOnClose && input.WindowClosed() {
+			return nil
+		}
+
 		dt := float64(time.Now().Sub(timer)) / float64(time.Second)
 		timer = time.Now()
 
