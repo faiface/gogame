@@ -39,6 +39,14 @@ func (c *Color) toSDL() sdl.Color {
 	}
 }
 
+func (c *Color) toUint32() uint32 {
+	r := uint32(255 * clamp(c.R, 0, 1))
+	g := uint32(255 * clamp(c.G, 0, 1))
+	b := uint32(255 * clamp(c.B, 0, 1))
+	a := uint32(255 * clamp(c.A, 0, 1))
+	return r + g<<8 + b<<16 + a<<24
+}
+
 func clamp(x, low, high float64) float64 {
 	if x < low {
 		return low

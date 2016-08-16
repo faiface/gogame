@@ -46,7 +46,7 @@ func (o *sdlOutput) DrawLine(x1, y1, x2, y2, thickness float64, color Color) {
 		int(x2+0.5),
 		int(y2+0.5),
 		int(thickness+0.5),
-		color.toSDL().Uint32(),
+		color.toUint32(),
 	)
 }
 
@@ -65,13 +65,14 @@ func (o *sdlOutput) DrawPolygon(x, y []float64, thickness float64, color Color) 
 			xInt16[i] = int16(x[i] + 0.5)
 			yInt16[i] = int16(y[i] + 0.5)
 		}
-		gfx.FilledPolygonColor(o.renderer, xInt16, yInt16, color.toSDL().Uint32())
+		gfx.FilledPolygonColor(o.renderer, xInt16, yInt16, color.toUint32())
 	} else {
 		for i := 0; i < numPoints; i++ {
 			j := (i + 1) % numPoints
 			x1, y1 := int(x[i]+0.5), int(y[i]+0.5)
 			x2, y2 := int(x[j]+0.5), int(y[j]+0.5)
-			gfx.ThickLineColor(o.renderer, x1, y1, x2, y2, int(thickness+0.5), color.toSDL().Uint32())
+			gfx.ThickLineColor(o.renderer, x1, y1, x2, y2, int(thickness+0.5), color.toUint32())
+			gfx.FilledCircleColor(o.renderer, x1, y1, int(thickness/2+0.5), color.toUint32())
 		}
 	}
 }
