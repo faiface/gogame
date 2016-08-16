@@ -9,6 +9,9 @@ type Output interface {
 
 // WindowOutput lets you resize a window, set it fullscreen or windowed.
 type WindowOutput interface {
+	// WindowSetTitle sets the title of the window to title.
+	WindowSetTitle(title string)
+
 	// WindowSetFullscreen sets window fullscreen if fullscreen is true. Otherwise
 	// sets it windowed.
 	WindowSetFullscreen(fullscreen bool)

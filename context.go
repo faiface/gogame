@@ -10,9 +10,11 @@ type Context struct {
 
 	// Output lets you do all kinds of output.
 	Output
+
+	quitFunc func()
 }
 
 // Quit shuts the game loop down.
 func (ctx *Context) Quit() {
-	//TODO
+	ctx.quitFunc()
 }
