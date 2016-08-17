@@ -46,7 +46,7 @@ type PrimitiveVideoOutput interface {
 type PictureVideoOutput interface {
 	// DrawPicture draws a picture onto a rectangle (x, y, w, h). The picture will be
 	// stretched to fit the rectangle.
-	DrawPicture(x, y, w, h float64, pic Picture)
+	DrawPicture(x, y, w, h float64, pic *Picture)
 }
 
 // AudioOutput lets you play sounds and music.
