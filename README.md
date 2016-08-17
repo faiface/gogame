@@ -25,3 +25,14 @@ func main() {
 	})
 }
 ```
+
+## Notes
+
+This library is currently heavily in development alongside my game.
+
+It is by no means complete yet and may be changing in major ways.
+
+## Contribution
+
+Is very welcome! You can improve the documentation, open issues, and contribute code.
+Don't hesitate and do a pull request!
