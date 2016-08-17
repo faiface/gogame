@@ -26,6 +26,6 @@ func main() {
 		}
 
 		ctx.Clear(gogame.Colors["yellow"])
-		ctx.DrawPolygon([]float64{100 + x, 600, 100}, []float64{100, 300, 500}, 0, gogame.Colors["red"])
+		ctx.DrawPolygon([]float64{100 + x, 600, 100}, []float64{100, 300, 500}, 0, gogame.Colors["grey"])
 	})
 }

@@ -1,5 +1,7 @@
 package gogame
 
+// This file contains internal functions to create SDL2 windows and renderers.
+
 import (
 	"errors"
 

@@ -1,5 +1,7 @@
 package gogame
 
+// This file internally implements input interfaces through SDL2.
+
 import "github.com/veandco/go-sdl2/sdl"
 
 type sdlInput struct {

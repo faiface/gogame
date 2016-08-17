@@ -1,51 +1,52 @@
 package gogame
 
 import (
+	"fmt"
+
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/sdl_image"
 )
 
-// Picture provies a basic interface for all kinds of software/hardware surfaces/textures.
-type Picture interface {
-	// Size returns the width and height of a picture.
-	Size() (w, h int)
-
-	// ColorAt returns the color of pixel (x, y) of a picture.
-	ColorAt(x, y int) Color
-}
-
-// LoadPicture loads a picture stored in your filesystem at the specified path.
-// If an error occured during the loading (e.g. file does not exist), an error will be returned.
-func LoadPicture(path string) (Picture, error) {
+// LoadPicture loads a picture from a file stored at the specified path.
+// If the loading fails, an error is returned.
+func LoadPicture(path string) (*Picture, error) {
 	var (
-		pic picture
+		pic Picture
 		err error
 	)
 	pic.surface, err = img.Load(path)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to load picture: %s", path)
 	}
-	return pic, nil
+	pic.surface.Flags |= staticSurface
+	pic.rect = sdl.Rect{X: 0, Y: 0, W: pic.surface.W, H: pic.surface.H}
+	return &pic, nil
 }
 
-type picture struct {
+// Picture is a static raster image, usually loaded from a file.
+type Picture struct {
 	surface *sdl.Surface
-	texture *sdl.Texture
+	rect    sdl.Rect
 }
 
-func (p picture) Size() (w, h int) {
+// Size returns the width and height of a picture in pixels.
+func (p *Picture) Size() (w, h int) {
 	return int(p.surface.W), int(p.surface.H)
 }
 
-func (p picture) ColorAt(x, y int) Color {
-	bpp := p.surface.BytesPerPixel()
-	index := y*int(p.surface.W) + x
-	pixel := p.surface.Pixels()[index*bpp : index*bpp+bpp]
-
-	rgba := [4]float64{0.0, 0.0, 0.0, 1.0}
-	for i := range pixel {
-		rgba[i] = float64(pixel[i]) / 255
+// Slice cuts a rectangle (x, y, w, h) from a picture.
+func (p *Picture) Slice(x, y, w, h int) *Picture {
+	return &Picture{
+		surface: p.surface,
+		rect: sdl.Rect{
+			X: p.rect.X + int32(x),
+			Y: p.rect.Y + int32(y),
+			W: int32(w),
+			H: int32(h),
+		},
 	}
-
-	return Color{rgba[0], rgba[1], rgba[2], rgba[3]}
 }
+
+const (
+	staticSurface = 1 << iota
+)

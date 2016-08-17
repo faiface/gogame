@@ -1,5 +1,7 @@
 package gogame
 
+// This file internally implements output devices through SDL2.
+
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	gfx "github.com/veandco/go-sdl2/sdl_gfx"
@@ -8,12 +10,14 @@ import (
 type sdlOutput struct {
 	window   *sdl.Window
 	renderer *sdl.Renderer
+	textures map[*sdl.Surface]*sdl.Texture
 }
 
 func newSdlOutput(window *sdl.Window, renderer *sdl.Renderer) *sdlOutput {
 	return &sdlOutput{
 		window:   window,
 		renderer: renderer,
+		textures: make(map[*sdl.Surface]*sdl.Texture),
 	}
 }
 
@@ -77,20 +81,20 @@ func (o *sdlOutput) DrawPolygon(x, y []float64, thickness float64, color Color) 
 	}
 }
 
-func (o *sdlOutput) DrawPicture(x, y, w, h float64, pic Picture) {
-	if pic, ok := pic.(picture); ok {
-		if pic.texture == nil {
-			var err error
-			pic.texture, err = o.renderer.CreateTextureFromSurface(pic.surface)
-			if err != nil {
-				panic("creating texture failed")
-			}
+func (o *sdlOutput) DrawPicture(x, y, w, h float64, pic *Picture) {
+	if o.textures[pic.surface] == nil || pic.surface.Flags&staticSurface == 0 {
+		var err error
+		o.textures[pic.surface], err = o.renderer.CreateTextureFromSurface(pic.surface)
+		if err != nil {
+			panic("failed to create a texture from a surface")
 		}
-		o.renderer.Copy(pic.texture, nil, &sdl.Rect{
-			X: int32(x + 0.5),
-			Y: int32(y + 0.5),
-			W: int32(w + 0.5),
-			H: int32(h + 0.5),
-		})
 	}
+
+	dst := sdl.Rect{
+		X: int32(x + 0.5),
+		Y: int32(y + 0.5),
+		W: int32(w + 0.5),
+		H: int32(h + 0.5),
+	}
+	o.renderer.Copy(o.textures[pic.surface], &pic.rect, &dst)
 }
