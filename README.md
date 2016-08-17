@@ -15,12 +15,13 @@ func main() {
 		Title:       "Gogame",
 		Width:       1024,
 		Height:      768,
+		FPS:         60,
 		QuitOnClose: true,
 	}
 
 	gogame.Loop(cfg, func(ctx gogame.Context) {
 		ctx.Clear(gogame.Colors["yellow"])
-		ctx.DrawRect(100, 100, 500, 400, 0, gogame.Colors["red"])
+		ctx.DrawLine(100, 100, 500, 400, 0, gogame.Colors["red"])
 	})
 }
 ```
