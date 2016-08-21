@@ -79,6 +79,16 @@ func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 	}
 }
 
+func (o *sdlOutput) DrawRect(rect Rect, thickness float64, color Color) {
+	points := []Vec{
+		{rect.X, rect.Y},
+		{rect.X + rect.W, rect.Y},
+		{rect.X + rect.W, rect.Y + rect.H},
+		{rect.X, rect.Y + rect.H},
+	}
+	o.DrawPolygon(points, thickness, color)
+}
+
 func (o *sdlOutput) DrawPicture(rect Rect, pic *Picture) {
 	if o.textures[pic.surface] == nil || pic.surface.Flags&staticSurface == 0 {
 		var err error

@@ -83,6 +83,12 @@ func (c *Camera) DrawPolygon(points []Vec, thickness float64, color Color) {
 	c.VideoOutput.DrawPolygon(points, thickness, color)
 }
 
+// DrawRect draws a rectangle projected with the camera using the underlying video output.
+func (c *Camera) DrawRect(rect Rect, thickness float64, color Color) {
+	rect = c.ProjectRect(rect)
+	c.VideoOutput.DrawRect(rect, thickness, color)
+}
+
 // DrawPicture draws a picture projected with the camera using the underlying video output.
 func (c *Camera) DrawPicture(rect Rect, pic *Picture) {
 	rect = c.ProjectRect(rect)

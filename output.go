@@ -42,6 +42,10 @@ type PrimitiveVideoOutput interface {
 	// DrawPolygon draws a closed polygon from the supplied points.
 	// If the thickness is 0, the polygon will be filled.
 	DrawPolygon(points []Vec, thickness float64, color Color)
+
+	// DrawRect draws a rectangle parallel with the axis of the coordinate system.
+	// If the thickness is 0, the rectangle will be filled.
+	DrawRect(rect Rect, thickness float64, color Color)
 }
 
 // PictureVideoOutput lets you draw pictures.
