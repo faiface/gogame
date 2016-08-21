@@ -37,6 +37,11 @@ func (o *sdlOutput) WindowResize(w, h int) {
 	o.window.SetSize(w, h)
 }
 
+func (o *sdlOutput) OutputSize() Rect {
+	w, h := o.window.GetSize()
+	return Rect{X: 0, Y: 0, W: float64(w), H: float64(h)}
+}
+
 func (o *sdlOutput) Clear(color Color) {
 	o.renderer.SetDrawColor(color.toSDLRGBA())
 	o.renderer.Clear()
