@@ -16,6 +16,6 @@ func main() {
 
 	gogame.Loop(cfg, func(ctx gogame.Context) {
 		ctx.Clear(gogame.Colors["yellow"])
-		ctx.DrawLine(100, 100, 500, 400, 10, gogame.Colors["red"])
+		ctx.DrawLine(gogame.Vec{X: 100, Y: 100}, gogame.Vec{X: 500, Y: 400}, 10, gogame.Colors["red"])
 	})
 }

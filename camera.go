@@ -3,9 +3,9 @@ package gogame
 // Camera allows moving and zooming the game view.
 // It achieves so by transfroming points between so called 'game space' and 'display space'.
 // Game space represents coordinates used internally inside a game.
-// Display space represents coordinates of pixels on the screen (where (0, 0) is the center).
+// Display space represents coordinates of pixels on the screen (where (0, 0) is a corner).
 type Camera struct {
-	CenterX, CenterY float64
+	CornerX, CornerY float64
 	ZoomX, ZoomY     float64
 
 	// VideoOutput is used to actually draw using a camera.
@@ -14,12 +14,12 @@ type Camera struct {
 
 // Project transfroms a point from game space to display space.
 func (c *Camera) Project(x, y float64) (float64, float64) {
-	return (x - c.CenterX) * c.ZoomX, (y - c.CenterY) * c.ZoomY
+	return (x - c.CornerX) * c.ZoomX, (y - c.CornerY) * c.ZoomY
 }
 
 // Unproject transfroms a point from display space to game space.
 func (c *Camera) Unproject(x, y float64) (float64, float64) {
-	return x/c.ZoomX + c.CenterX, y/c.ZoomY + c.CenterY
+	return x/c.ZoomX + c.CornerX, y/c.ZoomY + c.CornerY
 }
 
 // ProjectVec transforms a vector from game space to display space.
