@@ -38,14 +38,14 @@ type PrimitiveVideoOutput interface {
 
 	// DrawPolygon draws a closed polygon from the supplied points.
 	// If the thickness is 0, the polygon will be filled.
-	DrawPolygon(xpoints []Vec, thickness float64, color Color)
+	DrawPolygon(points []Vec, thickness float64, color Color)
 }
 
 // PictureVideoOutput lets you draw pictures.
 type PictureVideoOutput interface {
-	// DrawPicture draws a picture onto a rectangle (x, y, w, h). The picture will be
+	// DrawPicture draws a picture onto a rect. The picture will be
 	// stretched to fit the rectangle.
-	DrawPicture(x, y, w, h float64, pic *Picture)
+	DrawPicture(rect Rect, pic *Picture)
 }
 
 // AudioOutput lets you play sounds and music.

@@ -74,7 +74,7 @@ func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 	}
 }
 
-func (o *sdlOutput) DrawPicture(x, y, w, h float64, pic *Picture) {
+func (o *sdlOutput) DrawPicture(rect Rect, pic *Picture) {
 	if o.textures[pic.surface] == nil || pic.surface.Flags&staticSurface == 0 {
 		var err error
 		o.textures[pic.surface], err = o.renderer.CreateTextureFromSurface(pic.surface)
@@ -84,10 +84,10 @@ func (o *sdlOutput) DrawPicture(x, y, w, h float64, pic *Picture) {
 	}
 
 	dst := sdl.Rect{
-		X: int32(x + 0.5),
-		Y: int32(y + 0.5),
-		W: int32(w + 0.5),
-		H: int32(h + 0.5),
+		X: int32(rect.X + 0.5),
+		Y: int32(rect.Y + 0.5),
+		W: int32(rect.W + 0.5),
+		H: int32(rect.H + 0.5),
 	}
 	o.renderer.Copy(o.textures[pic.surface], &pic.rect, &dst)
 }
