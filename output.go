@@ -26,8 +26,8 @@ type VideoOutput interface {
 	PrimitiveVideoOutput
 	PictureVideoOutput
 
-	// OutputSize returns the output rectangle.
-	OutputSize() Rect
+	// OutputRect returns the output rectangle.
+	OutputRect() Rect
 
 	// Clear fill whole video output with one color.
 	Clear(color Color)

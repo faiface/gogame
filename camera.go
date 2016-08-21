@@ -64,6 +64,11 @@ func (c *Camera) UnprojectRect(r1 Rect) (r2 Rect) {
 	return
 }
 
+// OutputRect returns an unprojected output rectangle of the underlying video output.
+func (c *Camera) OutputRect() Rect {
+	return c.UnprojectRect(c.VideoOutput.OutputRect())
+}
+
 // DrawLine draws a line projected with the camera using the underlying video output.
 func (c *Camera) DrawLine(a, b Vec, thickness float64, color Color) {
 	a, b = c.ProjectVec(a), c.ProjectVec(b)
