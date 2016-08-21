@@ -42,39 +42,32 @@ func (o *sdlOutput) Clear(color Color) {
 	o.renderer.Clear()
 }
 
-func (o *sdlOutput) DrawLine(x1, y1, x2, y2, thickness float64, color Color) {
+func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
 	gfx.ThickLineColor(
 		o.renderer,
-		int(x1+0.5),
-		int(y1+0.5),
-		int(x2+0.5),
-		int(y2+0.5),
+		int(a.X+0.5),
+		int(a.Y+0.5),
+		int(b.X+0.5),
+		int(b.Y+0.5),
 		int(thickness+0.5),
 		color.toSDL(),
 	)
 }
 
-func (o *sdlOutput) DrawPolygon(x, y []float64, thickness float64, color Color) {
-	var numPoints int
-	if len(x) < len(y) {
-		numPoints = len(x)
-	} else {
-		numPoints = len(y)
-	}
-
+func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 	if thickness == 0 {
-		xInt16 := make([]int16, numPoints)
-		yInt16 := make([]int16, numPoints)
-		for i := 0; i < numPoints; i++ {
-			xInt16[i] = int16(x[i] + 0.5)
-			yInt16[i] = int16(y[i] + 0.5)
+		xInt16 := make([]int16, len(points))
+		yInt16 := make([]int16, len(points))
+		for i := 0; i < len(points); i++ {
+			xInt16[i] = int16(points[i].X + 0.5)
+			yInt16[i] = int16(points[i].Y + 0.5)
 		}
 		gfx.FilledPolygonColor(o.renderer, xInt16, yInt16, color.toSDL())
 	} else {
-		for i := 0; i < numPoints; i++ {
-			j := (i + 1) % numPoints
-			x1, y1 := int(x[i]+0.5), int(y[i]+0.5)
-			x2, y2 := int(x[j]+0.5), int(y[j]+0.5)
+		for i := 0; i < len(points); i++ {
+			j := (i + 1) % len(points)
+			x1, y1 := int(points[i].X+0.5), int(points[i].Y+0.5)
+			x2, y2 := int(points[j].X+0.5), int(points[j].Y+0.5)
 			gfx.ThickLineColor(o.renderer, x1, y1, x2, y2, int(thickness+0.5), color.toSDL())
 			gfx.FilledCircleColor(o.renderer, x1, y1, int(thickness/2+0.5), color.toSDL())
 		}

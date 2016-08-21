@@ -32,14 +32,13 @@ type VideoOutput interface {
 
 // PrimitiveVideoOutput lets you draw primitive geometric shapes.
 type PrimitiveVideoOutput interface {
-	// DrawLine draws a line of specified thickness from point (x1, y1) to point (x2, y2)
+	// DrawLine draws a line of specified thickness from point a to point b
 	// using the provided color.
-	DrawLine(x1, y1, x2, y2, thickness float64, color Color)
+	DrawLine(a, b Vec, thickness float64, color Color)
 
-	// DrawPolygon draws a closed polygon with min(len(x), len(y)) points.
-	// i-th point of the polygon has coordinates (x[i], y[i]).
+	// DrawPolygon draws a closed polygon from the supplied points.
 	// If the thickness is 0, the polygon will be filled.
-	DrawPolygon(x, y []float64, thickness float64, color Color)
+	DrawPolygon(xpoints []Vec, thickness float64, color Color)
 }
 
 // PictureVideoOutput lets you draw pictures.
