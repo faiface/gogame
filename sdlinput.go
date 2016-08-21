@@ -50,9 +50,11 @@ func (i *sdlInput) MousePosition() (x, y int)     { return i.mouseX, i.mouseY }
 func (i *sdlInput) MouseDelta() (dx, dy int)      { return i.mouseX - i.prevMouseX, i.mouseY - i.prevMouseY }
 func (i *sdlInput) MouseDown(button int) bool     { return i.mouse[button] }
 func (i *sdlInput) MouseJustDown(button int) bool { return i.mouse[button] && !i.prevMouse[button] }
+func (i *sdlInput) MouseJustUp(button int) bool   { return !i.mouse[button] && i.prevMouse[button] }
 
 func (i *sdlInput) KeyDown(key int) bool     { return i.keyboard[key] }
 func (i *sdlInput) KeyJustDown(key int) bool { return i.keyboard[key] && !i.prevKeyboard[key] }
+func (i *sdlInput) KeyJustUp(key int) bool   { return !i.keyboard[key] && i.prevKeyboard[key] }
 
 func (i *sdlInput) update() {
 	i.windowMoved = false

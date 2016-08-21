@@ -49,6 +49,9 @@ type MouseInput interface {
 
 	// MouseJustDown checks if a mouse button has just been pressed down.
 	MouseJustDown(button int) bool
+
+	// MouseJustUp checks if a mouse button has just been released up.
+	MouseJustUp(button int) bool
 }
 
 // KeyboardInput gets input from a keyboard device.
@@ -58,6 +61,9 @@ type KeyboardInput interface {
 
 	// KeyJustDown checks if a key has just been pressed down.
 	KeyJustDown(key int) bool
+
+	// KeyJustUp checks if a key has just been released up.
+	KeyJustUp(key int) bool
 }
 
 // Enumeration of all mouse buttons.
