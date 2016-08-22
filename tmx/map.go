@@ -43,12 +43,17 @@ func Load(path string) (*Map, error) {
 type Map struct {
 	XMLName xml.Name `xml:"map"`
 
-	Version         string `xml:"version,attr"`
+	Version string `xml:"version,attr"`
+
+	Orientation     string `xml:"orientation,attr"`
 	RenderOrder     string `xml:"renderorder,attr"`
 	Width           int    `xml:"width,attr"`
 	Height          int    `xml:"height,attr"`
 	TileWidth       int    `xml:"tilewidth,attr"`
 	TileHeight      int    `xml:"tileheight,attr"`
+	HexSideLength   int    `xml:"hexsidelength,attr"`
+	StaggerAxis     string `xml:"staggeraxis,attr"`
+	StaggerIndex    string `xml:"staggerindex,attr"`
 	BackgroundColor string `xml:"backgroundcolor,attr"`
 	NextObjectID    int    `xml:"nextobjectid,attr"`
 
@@ -113,7 +118,7 @@ type Layer struct {
 	} `xml:"data"`
 }
 
-// UnmarshalXML for default values for fuck sake.
+// UnmarshalXML for default values.
 func (l *Layer) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type layer Layer
 	defaultLayer := layer{
@@ -129,19 +134,20 @@ func (l *Layer) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 
 // ObjectGroup is a single list of objects.
 type ObjectGroup struct {
-	Name    string  `xml:"name,attr"`
-	Color   string  `xml:"color,attr"`
-	Opacity float64 `xml:"opacity,attr"`
-	Visible bool    `xml:"visible,attr"`
-	OffsetX int     `xml:"offsetx,attr"`
-	OffsetY int     `xml:"offsety,attr"`
+	Name      string  `xml:"name,attr"`
+	Color     string  `xml:"color,attr"`
+	Opacity   float64 `xml:"opacity,attr"`
+	Visible   bool    `xml:"visible,attr"`
+	OffsetX   int     `xml:"offsetx,attr"`
+	OffsetY   int     `xml:"offsety,attr"`
+	DrawOrder string  `xml:"draworder,attr"`
 
 	Props Properties `xml:"properties"`
 
 	Objects []Object `xml:"object"`
 }
 
-// UnmarshalXML for default values for fuck sake.
+// UnmarshalXML for default values.
 func (o *ObjectGroup) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type objectGroup ObjectGroup
 	defaultGroup := objectGroup{
@@ -165,6 +171,7 @@ type Object struct {
 	Width    int    `xml:"width,attr"`
 	Height   int    `xml:"height,attr"`
 	Rotation int    `xml:"rotation,attr"`
+	GID      int    `xml:"gid,attr"`
 	Visible  bool   `xml:"visible,attr"`
 
 	Props Properties `xml:"properties"`
@@ -183,7 +190,7 @@ type ImageLayer struct {
 	Images []Image `xml:"image"`
 }
 
-// UnmarshalXML for default values for fuck sake.
+// UnmarshalXML for default values.
 func (i *ImageLayer) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type imageLayer ImageLayer
 	defaultLayer := imageLayer{
@@ -201,6 +208,7 @@ func (i *ImageLayer) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error 
 type Image struct {
 	Format string `xml:"format,attr"`
 	Source string `xml:"source,attr"`
+	Trans  string `xml:"trans,attr"`
 	Width  int    `xml:"width,attr"`
 	Height int    `xml:"height,attr"`
 }
