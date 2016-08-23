@@ -23,18 +23,12 @@ type WindowOutput interface {
 // VideoOutput combines all of the video output methods together and adds a Clear method
 // to clear the screen.
 type VideoOutput interface {
-	PrimitiveVideoOutput
-	PictureVideoOutput
-
 	// OutputRect returns the output rectangle.
 	OutputRect() Rect
 
 	// Clear fill whole video output with one color.
 	Clear(color Color)
-}
 
-// PrimitiveVideoOutput lets you draw primitive geometric shapes.
-type PrimitiveVideoOutput interface {
 	// DrawLine draws a line of specified thickness from point a to point b
 	// using the provided color.
 	DrawLine(a, b Vec, thickness float64, color Color)
@@ -46,10 +40,7 @@ type PrimitiveVideoOutput interface {
 	// DrawRect draws a rectangle parallel with the axis of the coordinate system.
 	// If the thickness is 0, the rectangle will be filled.
 	DrawRect(rect Rect, thickness float64, color Color)
-}
 
-// PictureVideoOutput lets you draw pictures.
-type PictureVideoOutput interface {
 	// DrawPicture draws a picture onto a rect. The picture will be
 	// stretched to fit the rectangle.
 	DrawPicture(rect Rect, pic *Picture)
