@@ -44,13 +44,14 @@ func (o *sdlOutput) OutputRect() Rect {
 	return Rect{X: 0, Y: 0, W: float64(w), H: float64(h)}
 }
 
-func (o *sdlOutput) Clear(color Color) {
-	o.renderer.SetDrawColor(color.toSDLRGBA())
-	o.renderer.Clear()
-}
-
 func (o *sdlOutput) SetMask(color Color) {
 	o.mask = color
+}
+
+func (o *sdlOutput) Clear(color Color) {
+	color = color.Mul(o.mask)
+	o.renderer.SetDrawColor(color.toSDLRGBA())
+	o.renderer.Clear()
 }
 
 func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
