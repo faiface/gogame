@@ -9,6 +9,16 @@ type Color struct {
 	R, G, B, A float64
 }
 
+// Mul multiplies color c by color d (component-wise).
+func (c Color) Mul(d Color) Color {
+	return Color{
+		R: c.R * d.R,
+		G: c.G * d.G,
+		B: c.B * d.B,
+		A: c.A * d.A,
+	}
+}
+
 // Colors defines some common colors.
 var Colors = map[string]Color{
 	"black":   {0.0, 0.0, 0.0, 1.0},

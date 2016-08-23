@@ -51,5 +51,7 @@ func makeRenderer(cfg Config, window *sdl.Window) (*sdl.Renderer, error) {
 		return nil, errors.New("failed to create a renderer")
 	}
 
+	renderer.SetDrawBlendMode(sdl.BLENDMODE_BLEND)
+
 	return renderer, nil
 }

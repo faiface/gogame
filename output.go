@@ -29,6 +29,11 @@ type VideoOutput interface {
 	// Clear fill whole video output with one color.
 	Clear(color Color)
 
+	// SetMask sets a color with which every following draw call should be masked.
+	// Masking means to multiply one color by another.
+	// Default mask is Color{R: 1, G: 1, B: 1, A: 1}.
+	SetMask(color Color)
+
 	// DrawLine draws a line of specified thickness from point a to point b
 	// using the provided color.
 	DrawLine(a, b Vec, thickness float64, color Color)

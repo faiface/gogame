@@ -11,6 +11,7 @@ type sdlOutput struct {
 	window   *sdl.Window
 	renderer *sdl.Renderer
 	textures map[*sdl.Surface]*sdl.Texture
+	mask     Color
 }
 
 func newSdlOutput(window *sdl.Window, renderer *sdl.Renderer) *sdlOutput {
@@ -18,6 +19,7 @@ func newSdlOutput(window *sdl.Window, renderer *sdl.Renderer) *sdlOutput {
 		window:   window,
 		renderer: renderer,
 		textures: make(map[*sdl.Surface]*sdl.Texture),
+		mask:     Color{1, 1, 1, 1},
 	}
 }
 
@@ -47,7 +49,12 @@ func (o *sdlOutput) Clear(color Color) {
 	o.renderer.Clear()
 }
 
+func (o *sdlOutput) SetMask(color Color) {
+	o.mask = color
+}
+
 func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
+	color = color.Mul(o.mask)
 	gfx.ThickLineColor(
 		o.renderer,
 		int(a.X+0.5),
@@ -60,6 +67,7 @@ func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
 }
 
 func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
+	color = color.Mul(o.mask)
 	if thickness == 0 {
 		xInt16 := make([]int16, len(points))
 		yInt16 := make([]int16, len(points))
@@ -80,6 +88,7 @@ func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 }
 
 func (o *sdlOutput) DrawRect(rect Rect, thickness float64, color Color) {
+	color = color.Mul(o.mask)
 	points := []Vec{
 		{rect.X, rect.Y},
 		{rect.X + rect.W, rect.Y},
@@ -98,11 +107,17 @@ func (o *sdlOutput) DrawPicture(rect Rect, pic *Picture) {
 		}
 	}
 
+	r, g, b, a := o.mask.toSDLRGBA()
+
+	texture := o.textures[pic.surface]
+	texture.SetColorMod(r, g, b)
+	texture.SetAlphaMod(a)
+
 	dst := sdl.Rect{
 		X: int32(rect.X + 0.5),
 		Y: int32(rect.Y + 0.5),
 		W: int32(rect.W + 0.5),
 		H: int32(rect.H + 0.5),
 	}
-	o.renderer.Copy(o.textures[pic.surface], &pic.rect, &dst)
+	o.renderer.Copy(texture, &pic.rect, &dst)
 }
