@@ -90,13 +90,31 @@ func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 
 func (o *sdlOutput) DrawRect(rect Rect, thickness float64, color Color) {
 	color = color.Mul(o.mask)
-	points := []Vec{
-		{rect.X, rect.Y},
-		{rect.X + rect.W, rect.Y},
-		{rect.X + rect.W, rect.Y + rect.H},
-		{rect.X, rect.Y + rect.H},
+	if thickness == 0 {
+		o.renderer.SetDrawColor(color.toSDLRGBA())
+		o.renderer.FillRect(&sdl.Rect{
+			X: int32(rect.X + 0.5),
+			Y: int32(rect.Y + 0.5),
+			W: int32(rect.W + 0.5),
+			H: int32(rect.H + 0.5),
+		})
+	} else if thickness == 1 {
+		o.renderer.SetDrawColor(color.toSDLRGBA())
+		o.renderer.DrawRect(&sdl.Rect{
+			X: int32(rect.X + 0.5),
+			Y: int32(rect.Y + 0.5),
+			W: int32(rect.W + 0.5),
+			H: int32(rect.H + 0.5),
+		})
+	} else {
+		points := []Vec{
+			{rect.X, rect.Y},
+			{rect.X + rect.W, rect.Y},
+			{rect.X + rect.W, rect.Y + rect.H},
+			{rect.X, rect.Y + rect.H},
+		}
+		o.DrawPolygon(points, thickness, color)
 	}
-	o.DrawPolygon(points, thickness, color)
 }
 
 func (o *sdlOutput) DrawPicture(rect Rect, pic *Picture) {

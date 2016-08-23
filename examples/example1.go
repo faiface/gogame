@@ -1,6 +1,11 @@
 package main
 
-import "github.com/faiface/gogame"
+import (
+	"math"
+	"time"
+
+	"github.com/faiface/gogame"
+)
 
 func main() {
 	gogame.Init()
@@ -14,8 +19,18 @@ func main() {
 		QuitOnClose: true,
 	}
 
+	start := time.Now()
+
 	gogame.Loop(cfg, func(ctx gogame.Context) {
-		ctx.SetMask(gogame.Color{1, 1, 1, 1})
+		x := float64(time.Now().Sub(start)) / float64(time.Second)
+		mask := gogame.Color{
+			R: (math.Sin(x*math.Sqrt(2)) + 1) / 2,
+			G: (math.Sin(x*math.Sqrt(3)) + 1) / 2,
+			B: (math.Sin(x*math.Sqrt(5)) + 1) / 2,
+			A: 1,
+		}
+		ctx.SetMask(mask)
+
 		ctx.Clear(gogame.Colors["yellow"])
 		ctx.DrawLine(gogame.Vec{X: 100, Y: 100}, gogame.Vec{X: 500, Y: 400}, 10, gogame.Colors["red"])
 	})
