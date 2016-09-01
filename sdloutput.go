@@ -130,12 +130,12 @@ func (o *rendererOutput) DrawPicture(rect Rect, pic *Picture) {
 			o.textures[pic.surface].Destroy() // need to destroy old textures to avoid memory leaks
 		}
 
-		var err error
-		o.textures[pic.surface], err = o.renderer.CreateTextureFromSurface(pic.surface)
+		texture, err := o.renderer.CreateTextureFromSurface(pic.surface)
 		if err != nil {
 			panic("failed to create a texture from a surface")
 		}
-		o.textures[pic.surface].SetBlendMode(sdl.BLENDMODE_BLEND)
+		texture.SetBlendMode(sdl.BLENDMODE_BLEND)
+		o.textures[pic.surface] = texture
 	}
 
 	r, g, b, a := o.mask.toSDLRGBA()
