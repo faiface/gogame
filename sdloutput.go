@@ -8,18 +8,18 @@ import (
 )
 
 type sdlOutput struct {
-	window   *sdl.Window
-	renderer *sdl.Renderer
-	textures map[*sdl.Surface]*sdl.Texture
-	mask     Color
+	window *sdl.Window
+	rendererOutput
 }
 
 func newSdlOutput(window *sdl.Window, renderer *sdl.Renderer) *sdlOutput {
 	return &sdlOutput{
-		window:   window,
-		renderer: renderer,
-		textures: make(map[*sdl.Surface]*sdl.Texture),
-		mask:     Color{1, 1, 1, 1},
+		window: window,
+		rendererOutput: rendererOutput{
+			renderer: renderer,
+			textures: make(map[*sdl.Surface]*sdl.Texture),
+			mask:     Color{1, 1, 1, 1},
+		},
 	}
 }
 
@@ -44,17 +44,24 @@ func (o *sdlOutput) OutputRect() Rect {
 	return Rect{X: 0, Y: 0, W: float64(w), H: float64(h)}
 }
 
-func (o *sdlOutput) SetMask(color Color) {
+// rendererOutput implements all VideoOutput methods for an SDL renderer except for OutputRect.
+type rendererOutput struct {
+	renderer *sdl.Renderer
+	textures map[*sdl.Surface]*sdl.Texture
+	mask     Color
+}
+
+func (o *rendererOutput) SetMask(color Color) {
 	o.mask = color
 }
 
-func (o *sdlOutput) Clear(color Color) {
+func (o *rendererOutput) Clear(color Color) {
 	color = color.Mul(o.mask)
 	o.renderer.SetDrawColor(color.toSDLRGBA())
 	o.renderer.Clear()
 }
 
-func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
+func (o *rendererOutput) DrawLine(a, b Vec, thickness float64, color Color) {
 	color = color.Mul(o.mask)
 	gfx.ThickLineColor(
 		o.renderer,
@@ -67,7 +74,7 @@ func (o *sdlOutput) DrawLine(a, b Vec, thickness float64, color Color) {
 	)
 }
 
-func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
+func (o *rendererOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 	color = color.Mul(o.mask)
 	if thickness == 0 {
 		xInt16 := make([]int16, len(points))
@@ -88,7 +95,7 @@ func (o *sdlOutput) DrawPolygon(points []Vec, thickness float64, color Color) {
 	}
 }
 
-func (o *sdlOutput) DrawRect(rect Rect, thickness float64, color Color) {
+func (o *rendererOutput) DrawRect(rect Rect, thickness float64, color Color) {
 	color = color.Mul(o.mask)
 	if thickness == 0 {
 		o.renderer.SetDrawColor(color.toSDLRGBA())
@@ -117,7 +124,7 @@ func (o *sdlOutput) DrawRect(rect Rect, thickness float64, color Color) {
 	}
 }
 
-func (o *sdlOutput) DrawPicture(rect Rect, pic *Picture) {
+func (o *rendererOutput) DrawPicture(rect Rect, pic *Picture) {
 	if o.textures[pic.surface] == nil || pic.surface.Flags&staticSurface == 0 {
 		var err error
 		o.textures[pic.surface], err = o.renderer.CreateTextureFromSurface(pic.surface)
