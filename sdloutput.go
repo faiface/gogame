@@ -126,6 +126,10 @@ func (o *rendererOutput) DrawRect(rect Rect, thickness float64, color Color) {
 
 func (o *rendererOutput) DrawPicture(rect Rect, pic *Picture) {
 	if o.textures[pic.surface] == nil || pic.surface.Flags&staticSurface == 0 {
+		if o.textures[pic.surface] != nil {
+			o.textures[pic.surface].Destroy() // need to destroy old textures to avoid memory leaks
+		}
+
 		var err error
 		o.textures[pic.surface], err = o.renderer.CreateTextureFromSurface(pic.surface)
 		if err != nil {
