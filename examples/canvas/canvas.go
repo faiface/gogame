@@ -14,9 +14,9 @@ func main() {
 		QuitOnClose: true,
 	}
 
-	canvas := gogame.NewCanvas(cfg.Width/2, cfg.Height/2)
+	canvas := gogame.NewCanvas(cfg.Width, cfg.Height)
 	canvas.Clear(gogame.Colors["white"])
-	canvas.DrawPolygon([]gogame.Vec{{100, 100}, {100, 300}, {450, 200}}, 0, gogame.Colors["grey"])
+	canvas.DrawPolygon([]gogame.Vec{{200, 200}, {200, 600}, {900, 400}}, 0, gogame.Colors["grey"])
 
 	gogame.Loop(cfg, func(ctx gogame.Context) {
 		outputRect := ctx.OutputRect()
@@ -33,5 +33,8 @@ func main() {
 
 		ctx.SetMask(gogame.Colors["blue"])
 		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: middle.Y, W: middle.X, H: middle.Y}, canvas.Picture())
+
+		ctx.SetMask(gogame.Color{R: 1, G: 1, B: 1, A: 0.2})
+		ctx.DrawPicture(ctx.OutputRect(), canvas.Picture())
 	})
 }

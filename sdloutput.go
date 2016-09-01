@@ -135,6 +135,7 @@ func (o *rendererOutput) DrawPicture(rect Rect, pic *Picture) {
 		if err != nil {
 			panic("failed to create a texture from a surface")
 		}
+		o.textures[pic.surface].SetBlendMode(sdl.BLENDMODE_BLEND)
 	}
 
 	r, g, b, a := o.mask.toSDLRGBA()
