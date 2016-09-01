@@ -2,6 +2,7 @@ package gogame
 
 import (
 	"fmt"
+	"runtime"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -26,6 +27,11 @@ func NewCanvas(width, height int) *Canvas {
 	if err != nil {
 		panic(fmt.Errorf("failed to create canvas: %s", err))
 	}
+
+	runtime.SetFinalizer(canvas, func(c *Canvas) {
+		c.surface.Free()
+		c.renderer.Destroy()
+	})
 
 	return canvas
 }

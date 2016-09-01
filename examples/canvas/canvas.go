@@ -33,8 +33,5 @@ func main() {
 
 		ctx.SetMask(gogame.Colors["blue"])
 		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: middle.Y, W: middle.X, H: middle.Y}, canvas.Picture())
-
-		ctx.SetMask(gogame.Color{R: 1, G: 1, B: 1, A: 0.2})
-		ctx.DrawPicture(ctx.OutputRect(), canvas.Picture())
 	})
 }
