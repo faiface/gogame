@@ -47,6 +47,34 @@ func (p *Picture) Slice(x, y, w, h int) *Picture {
 	}
 }
 
+// Copy creates an exact independent copy of a picture.
+// This is particularly useful when dealing with canvases, since this copy can be rendered
+// more effeciently than the internal picture of a canvas.
+func (p *Picture) Copy() *Picture {
+	surface, err := sdl.CreateRGBSurface(
+		p.surface.Flags,
+		p.surface.W,
+		p.surface.H,
+		int32(p.surface.Format.BitsPerPixel),
+		p.surface.Format.Rmask,
+		p.surface.Format.Gmask,
+		p.surface.Format.Bmask,
+		p.surface.Format.Amask,
+	)
+
+	if err != nil {
+		panic(fmt.Errorf("failed to copy picture: %s", err))
+	}
+
+	p.surface.Blit(nil, surface, nil)
+	surface.Flags |= staticSurface
+
+	return &Picture{
+		surface: surface,
+		rect:    p.rect,
+	}
+}
+
 const (
 	staticSurface = 1 << iota
 )

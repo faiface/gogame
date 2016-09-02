@@ -18,20 +18,22 @@ func main() {
 	canvas.Clear(gogame.Colors["white"])
 	canvas.DrawPolygon([]gogame.Vec{{200, 200}, {200, 600}, {900, 400}}, 0, gogame.Colors["grey"])
 
+	picture := canvas.Picture().Copy()
+
 	gogame.Loop(cfg, func(ctx gogame.Context) {
 		outputRect := ctx.OutputRect()
 		middle := outputRect.Size().D(2)
 
 		ctx.SetMask(gogame.Colors["red"])
-		ctx.DrawPicture(gogame.Rect{X: 0, Y: 0, W: middle.X, H: middle.Y}, canvas.Picture())
+		ctx.DrawPicture(gogame.Rect{X: 0, Y: 0, W: middle.X, H: middle.Y}, picture)
 
 		ctx.SetMask(gogame.Colors["green"])
-		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: 0, W: middle.X, H: middle.Y}, canvas.Picture())
+		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: 0, W: middle.X, H: middle.Y}, picture)
 
 		ctx.SetMask(gogame.Colors["yellow"])
-		ctx.DrawPicture(gogame.Rect{X: 0, Y: middle.Y, W: middle.X, H: middle.Y}, canvas.Picture())
+		ctx.DrawPicture(gogame.Rect{X: 0, Y: middle.Y, W: middle.X, H: middle.Y}, picture)
 
 		ctx.SetMask(gogame.Colors["blue"])
-		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: middle.Y, W: middle.X, H: middle.Y}, canvas.Picture())
+		ctx.DrawPicture(gogame.Rect{X: middle.X, Y: middle.Y, W: middle.X, H: middle.Y}, picture)
 	})
 }
