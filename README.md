@@ -36,7 +36,7 @@ func main() {
 ```
 
 If you've ever written a game, you surely are familiar with the "game loop" concept. Gogame manages
-this for you with `gogame.Loop` function. Let's take a loop at it's signature:
+this for you with `gogame.Loop` function. Let's take a look at it's signature:
 
 ```go
 func Loop(cfg Config, lf LoopFunc) error
