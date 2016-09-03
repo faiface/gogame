@@ -69,6 +69,12 @@ func (c *Camera) OutputRect() Rect {
 	return c.UnprojectRect(c.VideoOutput.OutputRect())
 }
 
+// DrawPoint draws a point projected with the camera using the underlying video output.
+func (c *Camera) DrawPoint(point Vec, color Color) {
+	point = c.ProjectVec(point)
+	c.VideoOutput.DrawPoint(point, color)
+}
+
 // DrawLine draws a line projected with the camera using the underlying video output.
 func (c *Camera) DrawLine(a, b Vec, thickness float64, color Color) {
 	a, b = c.ProjectVec(a), c.ProjectVec(b)
