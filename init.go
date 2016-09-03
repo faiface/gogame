@@ -6,7 +6,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-// Init initializes Gogame (and SDL2). Call this before using Gogame.s
+// Init initializes Gogame (and SDL2). Call this before using Gogame.
 func Init() error {
 	err := sdl.Init(sdl.INIT_EVERYTHING)
 	if err != nil {

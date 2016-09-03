@@ -20,8 +20,7 @@ type WindowOutput interface {
 	WindowResize(w, h int)
 }
 
-// VideoOutput combines all of the video output methods together and adds a Clear method
-// to clear the screen.
+// VideoOutput lets you draw primitives and pictures.
 type VideoOutput interface {
 	// OutputRect returns the output rectangle.
 	OutputRect() Rect
