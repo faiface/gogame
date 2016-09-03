@@ -1,6 +1,6 @@
 # Gogame
 
-A simple and useful game library in Go.
+A simple and useful game library in Go. Doc: https://godoc.org/github.com/faiface/gogame
 
 ```
 go get github.com/faiface/gogame
@@ -157,6 +157,11 @@ ctx.DrawPicture(gogame.Rect{X: 100, Y: 100, W: 50, H: 50}, myDog)
 ```
 
 The picture will be stretched to fit the provided rectangle precisely.
+
+### What else is supported?
+
+Animations, cameras, canvases, ... look up the documentation
+(https://godoc.org/github.com/faiface/gogame)!
 
 ## Notes
 
