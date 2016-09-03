@@ -15,8 +15,8 @@ func main() {
 	}
 
 	canvas := gogame.NewCanvas(cfg.Width, cfg.Height)
-	canvas.Clear(gogame.Colors["white"])
 	canvas.DrawPolygon([]gogame.Vec{{200, 200}, {200, 600}, {900, 400}}, 0, gogame.Colors["grey"])
+	canvas.Clear(gogame.Colors["white"])
 
 	picture := canvas.Picture().Copy()
 

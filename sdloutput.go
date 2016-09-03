@@ -61,6 +61,12 @@ func (o *rendererOutput) Clear(color Color) {
 	o.renderer.Clear()
 }
 
+func (o *rendererOutput) DrawPoint(point Vec, color Color) {
+	color = color.Mul(o.mask)
+	o.renderer.SetDrawColor(color.toSDLRGBA())
+	o.renderer.DrawPoint(int(point.X+0.5), int(point.Y+0.5))
+}
+
 func (o *rendererOutput) DrawLine(a, b Vec, thickness float64, color Color) {
 	color = color.Mul(o.mask)
 	gfx.ThickLineColor(

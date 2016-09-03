@@ -34,6 +34,9 @@ type VideoOutput interface {
 	// Clear fill whole video output with one color.
 	Clear(color Color)
 
+	// DrawPoint draws a single pixel of the specified color.
+	DrawPoint(point Vec, color Color)
+
 	// DrawLine draws a line of specified thickness from point a to point b
 	// using the provided color.
 	DrawLine(a, b Vec, thickness float64, color Color)
