@@ -1,9 +1,9 @@
 package gogame
 
 import (
-	"fmt"
 	"runtime"
 
+	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -20,12 +20,12 @@ func NewCanvas(width, height int) *Canvas {
 	// no staticSurface flag, this suface is dynamic
 	canvas.surface, err = sdl.CreateRGBSurface(0, int32(width), int32(height), 32, 0, 0, 0, 0)
 	if err != nil {
-		panic(fmt.Errorf("failed to create canvas: %s", err))
+		panic(errors.Wrap(err, "failed to create canvas"))
 	}
 
 	canvas.renderer, err = sdl.CreateSoftwareRenderer(canvas.surface)
 	if err != nil {
-		panic(fmt.Errorf("failed to create canvas: %s", err))
+		panic(errors.Wrap(err, "failed to create canvas"))
 	}
 
 	runtime.SetFinalizer(canvas, func(c *Canvas) {
