@@ -27,6 +27,7 @@ func LoadPicture(path string) (*Picture, error) {
 type Picture struct {
 	surface *sdl.Surface
 	rect    sdl.Rect
+	angle   float64
 }
 
 // Size returns the width and height of a picture in pixels.
@@ -35,6 +36,8 @@ func (p *Picture) Size() (w, h int) {
 }
 
 // Slice cuts a rectangle (x, y, w, h) from a picture.
+// Note, that this method does not copy the picture, it only creates a different view of the same
+// picture.
 func (p *Picture) Slice(x, y, w, h int) *Picture {
 	return &Picture{
 		surface: p.surface,
@@ -44,6 +47,18 @@ func (p *Picture) Slice(x, y, w, h int) *Picture {
 			W: int32(w),
 			H: int32(h),
 		},
+		angle: p.angle,
+	}
+}
+
+// Rotate returns a rotated picture. Angle is in radians.
+// Note, that this method does not copy the picture, it only creates a different view of the same
+// picture.
+func (p *Picture) Rotate(angle float64) *Picture {
+	return &Picture{
+		surface: p.surface,
+		rect:    p.rect,
+		angle:   p.angle + angle,
 	}
 }
 
@@ -72,6 +87,7 @@ func (p *Picture) Copy() *Picture {
 	return &Picture{
 		surface: surface,
 		rect:    p.rect,
+		angle:   p.angle,
 	}
 }
 

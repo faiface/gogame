@@ -3,6 +3,8 @@ package gogame
 // This file internally implements output devices through SDL2.
 
 import (
+	"math"
+
 	"github.com/veandco/go-sdl2/sdl"
 	gfx "github.com/veandco/go-sdl2/sdl_gfx"
 )
@@ -156,5 +158,5 @@ func (o *rendererOutput) DrawPicture(rect Rect, pic *Picture) {
 		W: int32(rect.W + 0.5),
 		H: int32(rect.H + 0.5),
 	}
-	o.renderer.Copy(texture, &pic.rect, &dst)
+	o.renderer.CopyEx(texture, &pic.rect, &dst, pic.angle/math.Pi*180, nil, sdl.FLIP_NONE)
 }

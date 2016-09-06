@@ -1,8 +1,6 @@
 package gogame
 
 import (
-	"runtime"
-
 	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -27,11 +25,7 @@ func NewCanvas(width, height int) *Canvas {
 	if err != nil {
 		panic(errors.Wrap(err, "failed to create canvas"))
 	}
-
-	runtime.SetFinalizer(canvas, func(c *Canvas) {
-		c.surface.Free()
-		c.renderer.Destroy()
-	})
+	canvas.renderer.SetDrawBlendMode(sdl.BLENDMODE_BLEND)
 
 	return canvas
 }
