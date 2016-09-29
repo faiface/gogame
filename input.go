@@ -39,10 +39,10 @@ type WindowInput interface {
 // MouseInput gets input from a mouse device.
 type MouseInput interface {
 	// MousePosition returns the position of the mouse relative to the window.
-	MousePosition() (x, y int)
+	MousePosition() Vec
 
 	// MouseDelta returns the difference between mouse's current and previous position.
-	MouseDelta() (dx, dy int)
+	MouseDelta() Vec
 
 	// MouseDown checks if a mouse button is currently pressed down.
 	MouseDown(button int) bool

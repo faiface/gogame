@@ -46,8 +46,13 @@ func (i *sdlInput) WindowHasFocus() bool       { return i.windowHasFocus }
 func (i *sdlInput) WindowLostFocus() bool      { return i.windowLostFocus }
 func (i *sdlInput) WindowGainedFocus() bool    { return i.windowGainedFocus }
 
-func (i *sdlInput) MousePosition() (x, y int)     { return i.mouseX, i.mouseY }
-func (i *sdlInput) MouseDelta() (dx, dy int)      { return i.mouseX - i.prevMouseX, i.mouseY - i.prevMouseY }
+func (i *sdlInput) MousePosition() Vec { return Vec{X: float64(i.mouseX), Y: float64(i.mouseY)} }
+func (i *sdlInput) MouseDelta() Vec {
+	return Vec{
+		X: float64(i.mouseX - i.prevMouseX),
+		Y: float64(i.mouseY - i.prevMouseY),
+	}
+}
 func (i *sdlInput) MouseDown(button int) bool     { return i.mouse[button] }
 func (i *sdlInput) MouseJustDown(button int) bool { return i.mouse[button] && !i.prevMouse[button] }
 func (i *sdlInput) MouseJustUp(button int) bool   { return !i.mouse[button] && i.prevMouse[button] }
