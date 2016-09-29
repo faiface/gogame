@@ -65,8 +65,7 @@ func (o *rendererOutput) Clear(color Color) {
 
 func (o *rendererOutput) DrawPoint(point Vec, color Color) {
 	color = color.Mul(o.mask)
-	o.renderer.SetDrawColor(color.toSDLRGBA())
-	o.renderer.DrawPoint(int(point.X+0.5), int(point.Y+0.5))
+	gfx.PixelColor(o.renderer, int(point.X+0.5), int(point.Y+0.5), color.toSDL())
 }
 
 func (o *rendererOutput) DrawLine(a, b Vec, thickness float64, color Color) {
@@ -106,21 +105,23 @@ func (o *rendererOutput) DrawPolygon(points []Vec, thickness float64, color Colo
 func (o *rendererOutput) DrawRect(rect Rect, thickness float64, color Color) {
 	color = color.Mul(o.mask)
 	if thickness == 0 {
-		o.renderer.SetDrawColor(color.toSDLRGBA())
-		o.renderer.FillRect(&sdl.Rect{
-			X: int32(rect.X + 0.5),
-			Y: int32(rect.Y + 0.5),
-			W: int32(rect.W + 0.5),
-			H: int32(rect.H + 0.5),
-		})
+		gfx.BoxColor(
+			o.renderer,
+			int(rect.X+0.5),
+			int(rect.Y+0.5),
+			int(rect.X+rect.W+0.5),
+			int(rect.Y+rect.H+0.5),
+			color.toSDL(),
+		)
 	} else if thickness == 1 {
-		o.renderer.SetDrawColor(color.toSDLRGBA())
-		o.renderer.DrawRect(&sdl.Rect{
-			X: int32(rect.X + 0.5),
-			Y: int32(rect.Y + 0.5),
-			W: int32(rect.W + 0.5),
-			H: int32(rect.H + 0.5),
-		})
+		gfx.RectangleColor(
+			o.renderer,
+			int(rect.X+0.5),
+			int(rect.Y+0.5),
+			int(rect.X+rect.W+0.5),
+			int(rect.Y+rect.H+0.5),
+			color.toSDL(),
+		)
 	} else {
 		points := []Vec{
 			{rect.X, rect.Y},
