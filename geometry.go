@@ -60,35 +60,43 @@ type Rect struct {
 }
 
 // XYWH returns the componets of a rectangle in four return values.
-func (r *Rect) XYWH() (x, y, w, h float64) {
+func (r Rect) XYWH() (x, y, w, h float64) {
 	return r.X, r.Y, r.W, r.H
 }
 
 // Pos returns position of a rectangle as a vector.
-func (r *Rect) Pos() Vec {
+func (r Rect) Pos() Vec {
 	return Vec{r.X, r.Y}
 }
 
 // Size returns size of a rectangle as a vector.
-func (r *Rect) Size() Vec {
+func (r Rect) Size() Vec {
 	return Vec{r.W, r.H}
 }
 
 // Center returns position of the center of a rectangle.
-func (r *Rect) Center() Vec {
+func (r Rect) Center() Vec {
 	return Vec{r.X + r.W/2, r.Y + r.H/2}
 }
 
-// MoveTo sets position of a rectangle to pos.
-func (r *Rect) MoveTo(pos Vec) {
-	r.X = pos.X
-	r.Y = pos.Y
+// MovedTo returns a copy of a rectangle with position set to to pos.
+func (r Rect) MovedTo(pos Vec) Rect {
+	return Rect{
+		X: pos.X,
+		Y: pos.Y,
+		W: r.W,
+		H: r.H,
+	}
 }
 
-// MoveBy relatively moves position of a rectangle by delta.
-func (r *Rect) MoveBy(delta Vec) {
-	r.X += delta.X
-	r.Y += delta.Y
+// MovedBy retuns a copy of a rectangle relatively moved by delta.
+func (r Rect) MovedBy(delta Vec) Rect {
+	return Rect{
+		X: r.X + delta.X,
+		Y: r.Y + delta.Y,
+		W: r.W,
+		H: r.H,
+	}
 }
 
 // Overlap returns the overlap vector of r1 and r2. If there's no overlap the result is {0, 0}.
