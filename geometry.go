@@ -99,6 +99,16 @@ func (r Rect) MovedBy(delta Vec) Rect {
 	}
 }
 
+// Resized returns a copy of a recangle with a new size.
+func (r Rect) Resized(size Vec) Rect {
+	return Rect{
+		X: r.X,
+		Y: r.Y,
+		W: size.X,
+		H: size.Y,
+	}
+}
+
 // Overlap returns the overlap vector of r1 and r2. If there's no overlap the result is {0, 0}.
 // Otherwise, the result represents, how much r1 needs to be moved not to overlap with r2.
 // Rectangle r1 only needs to be moved by one component of result.
