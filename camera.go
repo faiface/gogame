@@ -3,10 +3,16 @@ package gogame
 // Camera allows moving and zooming the game view.
 // It achieves so by transfroming points between so called 'game space' and 'display space'.
 // Game space represents coordinates used internally inside a game.
-// Display space represents coordinates of pixels on the screen (where (0, 0) is a corner).
+// Display space represents coordinates of the VideoOutput.
+// VideoOutput needs to be set for a camera to work properly.
 type Camera struct {
-	CornerX, CornerY float64
-	ZoomX, ZoomY     float64
+	// Center is a vector in 'game space' that should be located on the center of 'display
+	// space'.
+	Center Vec
+
+	// Zoom specifies how much should things be zoomed on each axis.
+	// Negative zoom flips the axis.
+	Zoom Vec
 
 	// VideoOutput is used to actually draw using a camera.
 	VideoOutput
@@ -14,12 +20,14 @@ type Camera struct {
 
 // Project transfroms a point from game space to display space.
 func (c *Camera) Project(x, y float64) (float64, float64) {
-	return (x - c.CornerX) * c.ZoomX, (y - c.CornerY) * c.ZoomY
+	displayCenter := c.VideoOutput.OutputRect().Center()
+	return (x-c.Center.X)*c.Zoom.X + displayCenter.X, (y-c.Center.Y)*c.Zoom.Y + displayCenter.Y
 }
 
 // Unproject transfroms a point from display space to game space.
 func (c *Camera) Unproject(x, y float64) (float64, float64) {
-	return x/c.ZoomX + c.CornerX, y/c.ZoomY + c.CornerY
+	displayCenter := c.VideoOutput.OutputRect().Center()
+	return (x-displayCenter.X)/c.Zoom.X + c.Center.X, (y-displayCenter.Y)/c.Zoom.Y + c.Center.Y
 }
 
 // ProjectVec transforms a vector from game space to display space.
@@ -36,31 +44,31 @@ func (c *Camera) UnprojectVec(u Vec) (v Vec) {
 
 // ProjectRect transforms a rectangle from game space to display space.
 func (c *Camera) ProjectRect(r1 Rect) (r2 Rect) {
-	if c.ZoomX < 0 {
+	if c.Zoom.X < 0 {
 		r1.X += r1.W
 		r1.W *= -1
 	}
-	if c.ZoomY < 0 {
+	if c.Zoom.Y < 0 {
 		r1.Y += r1.H
 		r1.H *= -1
 	}
 	r2.X, r2.Y = c.Project(r1.X, r1.Y)
-	r2.W, r2.H = r1.W*c.ZoomX, r1.H*c.ZoomY
+	r2.W, r2.H = r1.W*c.Zoom.X, r1.H*c.Zoom.Y
 	return
 }
 
 // UnprojectRect transfroms a rectangle from display space to game space.
 func (c *Camera) UnprojectRect(r1 Rect) (r2 Rect) {
-	if c.ZoomX < 0 {
+	if c.Zoom.X < 0 {
 		r1.X += r1.W
 		r1.W *= -1
 	}
-	if c.ZoomY < 0 {
+	if c.Zoom.Y < 0 {
 		r1.Y += r1.H
 		r1.H *= -1
 	}
 	r2.X, r2.Y = c.Unproject(r1.X, r1.Y)
-	r2.W, r2.H = r1.W/c.ZoomX, r1.H/c.ZoomY
+	r2.W, r2.H = r1.W/c.Zoom.X, r1.H/c.Zoom.Y
 	return
 }
 
