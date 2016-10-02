@@ -99,6 +99,8 @@ type Tileset struct {
 	} `xml:"tileoffset"`
 
 	Image Image `xml:"image"`
+
+	Tiles []Tile `xml:"tile"`
 }
 
 // Layer is a single layout of tiles.
@@ -211,4 +213,10 @@ type Image struct {
 	Trans  string `xml:"trans,attr"`
 	Width  int    `xml:"width,attr"`
 	Height int    `xml:"height,attr"`
+}
+
+// Tile is a single tile in a tileset, usually with a custom image.
+type Tile struct {
+	ID    int   `xml:"id,attr"`
+	Image Image `xml:"image"`
 }
