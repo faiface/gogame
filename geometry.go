@@ -54,6 +54,14 @@ func (u Vec) Len() float64 {
 	return math.Sqrt(u.X*u.X + u.Y*u.Y)
 }
 
+// Rotated returns the vector rotated around (0, 0) by angle in radians.
+func (u Vec) Rotated(angle float64) Vec {
+	return Vec{
+		X: u.X*math.Cos(angle) - u.Y*math.Sin(angle),
+		Y: u.X*math.Sin(angle) + u.Y*math.Cos(angle),
+	}
+}
+
 // Rect represents a rectangle in 2D space.
 type Rect struct {
 	X, Y, W, H float64
