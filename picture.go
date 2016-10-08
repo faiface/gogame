@@ -51,10 +51,10 @@ func (p *Picture) Slice(x, y, w, h int) *Picture {
 	}
 }
 
-// Rotate returns a rotated picture. Angle is in radians.
+// Rotated returns a rotated picture. Angle is in radians.
 // Note, that this method does not copy the picture, it only creates a different view of the same
 // picture.
-func (p *Picture) Rotate(angle float64) *Picture {
+func (p *Picture) Rotated(angle float64) *Picture {
 	return &Picture{
 		surface: p.surface,
 		rect:    p.rect,

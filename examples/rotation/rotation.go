@@ -27,7 +27,7 @@ func main() {
 
 	gogame.Loop(cfg, func(ctx gogame.Context) {
 		ctx.Clear(gogame.Colors["green"])
-		ctx.DrawPicture(gogame.Rect{X: 400, Y: 200, W: 300, H: 300}, picture.Rotate(angle))
+		ctx.DrawPicture(gogame.Rect{X: 400, Y: 200, W: 300, H: 300}, picture.Rotated(angle))
 
 		angle += ctx.Dt * math.Pi
 	})
