@@ -92,6 +92,10 @@ func (o *rendererOutput) DrawPolygon(points []Vec, thickness float64, color Colo
 		}
 		gfx.FilledPolygonColor(o.renderer, xInt16, yInt16, color.toSDL())
 	} else {
+		if len(points) == 1 {
+			x, y := int(points[0].X+0.5), int(points[0].Y+0.5)
+			gfx.FilledCircleColor(o.renderer, x, y, int(thickness/2+0.5), color.toSDL())
+		}
 		for i := 0; i < len(points); i++ {
 			j := (i + 1) % len(points)
 			x1, y1 := int(points[i].X+0.5), int(points[i].Y+0.5)
