@@ -1,3 +1,5 @@
+# I no longer work on this library. Check out [Pixel](https://github.com/faiface/pixel) instead.
+
 # Gogame
 
 A simple and useful game library in Go. Doc: https://godoc.org/github.com/faiface/gogame
